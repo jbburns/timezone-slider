@@ -72,7 +72,7 @@ const CitySearch: React.FC<Props> = ({ onSelect }) => {
                 <Search size={18} className="search-icon" />
                 <input
                     type="text"
-                    placeholder="Add City (Major Tier 1 Cities Only)..."
+                    placeholder="Add City ..."
                     value={query}
                     onChange={handleSearch}
                     onKeyDown={handleKeyDown}
