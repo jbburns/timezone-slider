@@ -1,0 +1,75 @@
+:root {
+  --bg-color: #0f1014;
+  /* Darker, richer background */
+  --surface-color: rgba(30, 31, 36, 0.7);
+  /* Translucent */
+  --surface-hover: rgba(44, 46, 51, 0.8);
+  --primary-color: #4dabf7;
+  --primary-glow: rgba(77, 171, 247, 0.3);
+  --text-primary: #f8f9fa;
+  --text-secondary: #909296;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --accent-color: #ff922b;
+  --danger-color: #fa5252;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --backdrop-blur: blur(12px);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  /* Optional: Add a subtle mesh gradient background if desired for more "wow" */
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(77, 171, 247, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(255, 146, 43, 0.05), transparent 25%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

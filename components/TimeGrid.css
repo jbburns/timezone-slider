@@ -1,0 +1,360 @@
+/* Wrapper to hold grid and controls */
+.time-grid-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.nav-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface-color);
+    border: var(--glass-border);
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+.nav-arrow:hover {
+    background: var(--surface-hover);
+    color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(77, 171, 247, 0.3);
+}
+
+.now-reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    background: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(255, 146, 43, 0.3);
+}
+
+.now-reset-btn:hover {
+    background: #ff7f1a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 146, 43, 0.5);
+}
+
+.grid-controls {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.now-reset-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: var(--surface-color);
+    color: var(--text-secondary);
+}
+
+.now-reset-btn.disabled:hover {
+    background: var(--surface-color);
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.time-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: transparent;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+    border: var(--glass-border);
+}
+
+.location-row {
+    display: flex;
+    background: var(--surface-color);
+    backdrop-filter: var(--backdrop-blur);
+    height: 88px;
+    /* Slightly taller for breathing room */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Slightly stronger separator */
+    transition: background 0.2s;
+}
+
+.location-row:last-child {
+    border-bottom: none;
+}
+
+.location-row.is-home {
+    background: rgba(44, 46, 51, 0.9);
+    /* More opaque */
+    position: relative;
+    z-index: 2;
+    /* Slight elevation */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.location-row.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.location-row {
+    cursor: grab;
+}
+
+.location-row.drop-target {
+    position: relative;
+}
+
+.drop-indicator {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-color);
+    box-shadow: 0 0 10px rgba(77, 171, 247, 0.8);
+    z-index: 100;
+    animation: pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+.city-info {
+    width: 200px;
+    min-width: 200px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: var(--glass-border);
+    z-index: 10;
+    background: rgba(30, 31, 36, 0.4);
+    /* Slightly darker tint */
+    backdrop-filter: blur(5px);
+}
+
+.city-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.city-meta-row {
+    display: flex;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.city-abbrev {
+    color: var(--accent-color);
+}
+
+.city-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.city-name-display {
+    font-weight: 700;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.02em;
+}
+
+.city-time-display {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    /* Premium monospace */
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    text-shadow: 0 0 20px rgba(77, 171, 247, 0.4);
+    /* Glow effect */
+}
+
+.city-date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    margin-top: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: none;
+}
+
+.remove-btn {
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-secondary);
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.location-row:hover .remove-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.remove-btn:hover {
+    color: var(--danger-color);
+    background: rgba(250, 82, 82, 0.1);
+}
+
+.home-icon {
+    color: var(--accent-color);
+    filter: drop-shadow(0 0 8px rgba(255, 146, 43, 0.5));
+}
+
+.time-strip {
+    display: flex;
+    flex: 1;
+    overflow-x: hidden;
+    /* Hide scrollbars as requested */
+}
+
+.time-cell {
+    flex: 1;
+    min-width: 42px;
+    /* Wider cells */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease-out;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    user-select: none;
+    font-weight: 500;
+}
+
+.time-cell.business-hour {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Old hover rule removed to avoid conflict */
+
+.time-cell:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.time-cell.off-hour {
+    background: rgba(0, 0, 0, 0.3);
+    /* Darker off hours */
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hovered column becomes the "Orange Slider" the user wants */
+.time-cell.hovered-column {
+    background: rgba(255, 146, 43, 0.2);
+    /* Orange tint */
+    border-left: 2px solid var(--accent-color);
+    /* Orange borders */
+    border-right: 2px solid var(--accent-color);
+    z-index: 20;
+}
+
+/* Remove horizontal borders for hovered cells to make it look like one vertical bar */
+.time-cell.hovered-column {
+    border-top: none;
+    border-bottom: none;
+}
+
+/* Add top border to top row's hovered cell */
+.location-row:first-child .time-cell.hovered-column {
+    border-top: 2px solid var(--accent-color);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+/* Add bottom border to bottom row's hovered cell */
+.location-row:last-child .time-cell.hovered-column {
+    border-bottom: 2px solid var(--accent-color);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/* "Get rid of the orange one" (Selection) - We just allow hover to dominate. 
+   If selected, we don't show a distinct fix style that confuses the user, 
+   or we make it look subtle. For now, let's remove the visual distinction 
+   for 'selected' or make it same as hover but static? 
+   User said "I have no idea what the orange slider does", implying the static 
+   selection was confusing. I will hide the selection style for now. */
+.time-cell.selected {
+    /* No distinct style, or maybe just a subtle background? */
+    background: rgba(255, 146, 43, 0.05);
+    border: none;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 146, 43, 0.3);
+}
+
+/* Midnight (New Day) Indicator */
+.time-cell.is-midnight {
+    border-left: 2px solid var(--text-secondary);
+    /* Distinct separator */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.05), transparent 30%);
+}
+
+.time-cell.pinned {
+    background: rgba(255, 146, 43, 0.3);
+    border-top: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    box-shadow: inset 0 0 20px rgba(255, 146, 43, 0.2);
+}
+
+
+.cell-day-label {
+    font-size: 0.65rem;
+    position: absolute;
+    top: 6px;
+    white-space: nowrap;
+    color: var(--accent-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
