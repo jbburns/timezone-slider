@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { City } from '../lib/CityLink';
 import LocationRow from './LocationRow';
 import { DateTime } from 'luxon';
-import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCcw, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import './TimeGrid.css';
 
 interface Props {
@@ -29,8 +29,14 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
     // Base start hour is current hour + valid gridOffset
     const startHour = homeTime.startOf('hour').plus({ hours: gridOffset });
 
-    const handleNav = (direction: 'left' | 'right') => {
-        setGridOffset(prev => prev + (direction === 'left' ? -1 : 1));
+    const handleNav = (direction: 'left' | 'right' | 'day-left' | 'day-right') => {
+        let change = 0;
+        if (direction === 'left') change = -1;
+        if (direction === 'right') change = 1;
+        if (direction === 'day-left') change = -24;
+        if (direction === 'day-right') change = 24;
+
+        setGridOffset(prev => prev + change);
         setIsExactTime(false);
     };
 
@@ -128,9 +134,17 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
             <div className="grid-controls">
                 {citySearch}
 
-                <button className="nav-arrow nav-left" onClick={() => handleNav('left')} title="-1 Hour">
-                    <ChevronLeft size={24} />
-                </button>
+
+
+
+                <div className="nav-controls">
+                    <button className="nav-arrow" onClick={() => handleNav('day-left')} title="-1 Day">
+                        <ChevronsLeft size={20} />
+                    </button>
+                    <button className="nav-arrow" onClick={() => handleNav('left')} title="-1 Hour">
+                        <ChevronLeft size={24} />
+                    </button>
+                </div>
 
 
                 <button
@@ -151,9 +165,14 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
                 />
 
 
-                <button className="nav-arrow nav-right" onClick={() => handleNav('right')} title="+1 Hour">
-                    <ChevronRight size={24} />
-                </button>
+                <div className="nav-controls">
+                    <button className="nav-arrow" onClick={() => handleNav('right')} title="+1 Hour">
+                        <ChevronRight size={24} />
+                    </button>
+                    <button className="nav-arrow" onClick={() => handleNav('day-right')} title="+1 Day">
+                        <ChevronsRight size={20} />
+                    </button>
+                </div>
             </div>
         </div>
     );
