@@ -49,6 +49,29 @@
     box-shadow: 0 4px 12px rgba(255, 146, 43, 0.5);
 }
 
+.now-indicator-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-color);
+    box-shadow: 0 0 8px rgba(255, 146, 43, 0.8);
+    z-index: 50;
+    pointer-events: none;
+}
+
+.now-indicator-line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -3px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 146, 43, 0.8);
+}
+
 .grid-controls {
     display: flex;
     justify-content: flex-start;

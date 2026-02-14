@@ -12,8 +12,8 @@ interface Props {
     onRemove: () => void;
     hoveredIndex: number | null;
     onHoverIndex: (index: number | null) => void;
-    pinnedTime: DateTime | null;
-    onCellClick: (cellTime: DateTime) => void;
+    pinnedColumnIndex: number | null;
+    onCellClick: (columnIndex: number) => void;
     draggable: boolean;
     onDragStart: () => void;
     onDragOver: (e: React.DragEvent) => void;
@@ -22,13 +22,17 @@ interface Props {
     onDragEnd: () => void;
     isDragging: boolean;
     showDropIndicator: boolean;
+    isExactTime: boolean;
 }
 
 const LocationRow: React.FC<Props> = ({
-    city, isHome, homeStartHour, onRemove, hoveredIndex, onHoverIndex, pinnedTime, onCellClick,
-    draggable, onDragStart, onDragOver, onDragLeave, onDrop, onDragEnd, isDragging, showDropIndicator
+    city, isHome, homeStartHour, onRemove, hoveredIndex, onHoverIndex, pinnedColumnIndex, onCellClick,
+    draggable, onDragStart, onDragOver, onDragLeave, onDrop, onDragEnd, isDragging, showDropIndicator, isExactTime
 }) => {
     const cityNow = DateTime.now().setZone(city.timezone);
+
+    // Calculate minute percentage for exact time line (0-100%)
+    const currentMinutePct = (cityNow.minute / 60) * 100;
 
     const cells = Array.from({ length: 24 }, (_, i) => {
         const cellTimeAbsolute = homeStartHour.plus({ hours: i });
@@ -61,16 +65,16 @@ const LocationRow: React.FC<Props> = ({
                     <span className="city-offset">{cityNow.toFormat('Z')}</span>
                 </div>
                 <div className="city-time-display">
-                    {pinnedTime
-                        ? pinnedTime.setZone(city.timezone).toFormat('HH:mm')
+                    {pinnedColumnIndex !== null
+                        ? cells[pinnedColumnIndex].toFormat('HH:mm')
                         : (hoveredIndex !== null
                             ? cells[hoveredIndex].toFormat('HH:mm')
                             : cityNow.toFormat('HH:mm')
                         )
                     }
                     <span className="city-date">
-                        {pinnedTime
-                            ? pinnedTime.setZone(city.timezone).toFormat('EEE, MMM d')
+                        {pinnedColumnIndex !== null
+                            ? cells[pinnedColumnIndex].toFormat('EEE, MMM d')
                             : (hoveredIndex !== null
                                 ? cells[hoveredIndex].toFormat('EEE, MMM d')
                                 : cityNow.toFormat('EEE, MMM d')
@@ -86,7 +90,21 @@ const LocationRow: React.FC<Props> = ({
                     const isCurrentHour = cellTime.hasSame(DateTime.now(), 'hour');
                     const isHovered = hoveredIndex === i;
                     const isMidnight = cellTime.hour === 0;
-                    const isPinned = pinnedTime && pinnedTime.hasSame(cellTime, 'hour');
+                    // Pin highlight logic:
+                    // If exact time mode: pin is only valid if it's the current hour (managed by parent mostly, but we verify)
+                    // Actually, parent sets pinnedColumnIndex.
+                    // IF isExactTime is true: we do NOT show the block 'pinned' style. We show the line.
+                    // IF isExactTime is false: we show the block 'pinned' style.
+                    const isPinnedColumn = pinnedColumnIndex === i;
+
+                    const showBlockPin = isPinnedColumn && !isExactTime;
+                    const showExactLine = isPinnedColumn && isExactTime;
+                    // Note: isCurrentHour is not enough because grid might be scrolled. 
+                    // But "Now" usually means "Current Time". 
+                    // If we grid-scrolled away from "Now", pinnedColumnIndex might still be pointing to "Now" column?
+                    // Actually, pinnedColumnIndex tracks the *visible column*.
+                    // If we want "Now" line, it should be on the column that represents current hour.
+                    // Users want "Now" button to reset to "Now".
 
                     return (
                         <div
@@ -96,16 +114,21 @@ const LocationRow: React.FC<Props> = ({
                 ${isCurrentHour ? 'current-hour' : ''}
                 ${isHovered ? 'hovered-column' : ''}
                 ${isMidnight ? 'is-midnight' : ''}
-                ${isPinned ? 'pinned' : ''}
+                ${showBlockPin ? 'pinned' : ''}
               `}
                             onMouseEnter={() => onHoverIndex(i)}
-                            onClick={() => onCellClick(cellTime)}
+                            onClick={() => onCellClick(i)}
                         >
                             <span className="cell-label">{cellTime.toFormat('HH')}</span>
                             <span className="cell-day-label">{cellTime.hour === 0 ? cellTime.toFormat('MMM d') : ''}</span>
 
-                            {/* "Now" Indicator Line (Only on current hour cell) */}
-                            {isCurrentHour && <div className="now-indicator-line" />}
+                            {/* Exact Time Indicator Line */}
+                            {showExactLine && (
+                                <div
+                                    className="now-indicator-line"
+                                    style={{ left: `${currentMinutePct}%` }}
+                                />
+                            )}
                         </div>
                     );
                 })}

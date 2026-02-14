@@ -15,7 +15,8 @@ interface Props {
 const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) => {
     const homeCity = cities[0];
     const [hoveredHourIndex, setHoveredHourIndex] = useState<number | null>(null);
-    const [pinnedTime, setPinnedTime] = useState<DateTime | null>(null);
+    const [pinnedColumnIndex, setPinnedColumnIndex] = useState<number | null>(0);
+    const [isExactTime, setIsExactTime] = useState(true); // Default to exact time (Now)
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
@@ -32,13 +33,15 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
         setGridOffset(prev => prev + (direction === 'left' ? -1 : 1));
     };
 
-    const handleCellClick = (cellTime: DateTime) => {
-        setPinnedTime(cellTime);
+    const handleCellClick = (columnIndex: number) => {
+        setPinnedColumnIndex(columnIndex);
+        setIsExactTime(false); // Manual selection is not "exact time" mode (it's block mode)
     };
 
     const handleResetToNow = () => {
-        setPinnedTime(null);
         setGridOffset(0);
+        setPinnedColumnIndex(0);
+        setIsExactTime(true);
     };
 
     const handleDragStart = (index: number) => {
@@ -80,7 +83,7 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
                         onRemove={() => onRemove(city.id)}
                         hoveredIndex={hoveredHourIndex}
                         onHoverIndex={setHoveredHourIndex}
-                        pinnedTime={pinnedTime}
+                        pinnedColumnIndex={pinnedColumnIndex}
                         onCellClick={handleCellClick}
                         draggable={true}
                         onDragStart={() => handleDragStart(index)}
@@ -90,6 +93,7 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
                         onDragEnd={handleDragEnd}
                         isDragging={draggedIndex === index}
                         showDropIndicator={dragOverIndex === index && draggedIndex !== index}
+                        isExactTime={isExactTime}
                     />
                 ))}
             </div>
@@ -103,10 +107,10 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
 
 
                 <button
-                    className={`now-reset-btn ${!pinnedTime ? 'disabled' : ''}`}
+                    className={`now-reset-btn ${gridOffset === 0 && pinnedColumnIndex === 0 ? 'disabled' : ''}`}
                     onClick={handleResetToNow}
                     title="Reset to current time"
-                    disabled={!pinnedTime}
+                    disabled={gridOffset === 0 && pinnedColumnIndex === 0}
                 >
                     <RotateCcw size={18} />
                     <span>Now</span>
