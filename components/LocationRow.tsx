@@ -39,6 +39,10 @@ const LocationRow: React.FC<Props> = ({
         return cellTimeAbsolute.setZone(city.timezone);
     });
 
+    const displayTime = pinnedColumnIndex !== null
+        ? (isExactTime ? cityNow : cells[pinnedColumnIndex])
+        : (hoveredIndex !== null ? cells[hoveredIndex] : cityNow);
+
     return (
         <div
             className={`location-row ${isHome ? 'is-home' : ''} ${isDragging ? 'dragging' : ''} ${showDropIndicator ? 'drop-target' : ''}`}
@@ -63,31 +67,13 @@ const LocationRow: React.FC<Props> = ({
                     {isHome && <Home size={14} className="home-icon" />}
                 </div>
                 <div className="city-meta-row">
-                    <span className="city-abbrev">{getTimezoneAbbreviation(city.timezone)}</span>
-                    <span className="city-offset">{cityNow.toFormat('Z')}</span>
+                    <span className="city-abbrev">{getTimezoneAbbreviation(city.timezone, displayTime.toJSDate())}</span>
+                    <span className="city-offset">{displayTime.toFormat('Z')}</span>
                 </div>
                 <div className="city-time-display">
-                    {pinnedColumnIndex !== null
-                        ? (isExactTime
-                            ? cityNow.toFormat('HH:mm')
-                            : cells[pinnedColumnIndex].toFormat('HH:mm')
-                        )
-                        : (hoveredIndex !== null
-                            ? cells[hoveredIndex].toFormat('HH:mm')
-                            : cityNow.toFormat('HH:mm')
-                        )
-                    }
+                    {displayTime.toFormat('HH:mm')}
                     <span className="city-date">
-                        {pinnedColumnIndex !== null
-                            ? (isExactTime
-                                ? cityNow.toFormat('EEE, MMM d')
-                                : cells[pinnedColumnIndex].toFormat('EEE, MMM d')
-                            )
-                            : (hoveredIndex !== null
-                                ? cells[hoveredIndex].toFormat('EEE, MMM d')
-                                : cityNow.toFormat('EEE, MMM d')
-                            )
-                        }
+                        {displayTime.toFormat('EEE, MMM d')}
                     </span>
                 </div>
             </div>

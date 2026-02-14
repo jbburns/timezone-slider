@@ -31,6 +31,7 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
 
     const handleNav = (direction: 'left' | 'right') => {
         setGridOffset(prev => prev + (direction === 'left' ? -1 : 1));
+        setIsExactTime(false);
     };
 
     const handleCellClick = (columnIndex: number) => {
@@ -67,6 +68,7 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
 
         const diffHours = targetDate.diff(homeTime.startOf('hour'), 'hours').hours;
         setGridOffset(Math.round(diffHours));
+        setIsExactTime(false);
     };
 
     const handleDragStart = (index: number) => {
