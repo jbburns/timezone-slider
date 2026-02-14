@@ -42,15 +42,17 @@ const LocationRow: React.FC<Props> = ({
     return (
         <div
             className={`location-row ${isHome ? 'is-home' : ''} ${isDragging ? 'dragging' : ''} ${showDropIndicator ? 'drop-target' : ''}`}
-            draggable={draggable}
-            onDragStart={onDragStart}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
             onDrop={onDrop}
-            onDragEnd={onDragEnd}
         >
             {showDropIndicator && <div className="drop-indicator" />}
-            <div className="city-info">
+            <div
+                className="city-info"
+                draggable={draggable}
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+            >
                 <div className="city-header-row">
                     <span className="city-name-display">{city.name}</span>
                     {!isHome && (

@@ -142,7 +142,7 @@
 }
 
 .location-row {
-    cursor: grab;
+    /* cursor: grab; Removed, now on city-info */
 }
 
 .location-row.drop-target {
@@ -187,6 +187,13 @@
     background: rgba(30, 31, 36, 0.4);
     /* Slightly darker tint */
     backdrop-filter: blur(5px);
+    cursor: grab;
+    transition: background 0.2s;
+}
+
+.city-info:active {
+    cursor: grabbing;
+    background: rgba(30, 31, 36, 0.6);
 }
 
 .city-header-row {
