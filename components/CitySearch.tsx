@@ -53,6 +53,12 @@ const CitySearch: React.FC<Props> = ({ onSelect }) => {
             e.preventDefault(); // Prevent default tab behavior
             // Cycle through results
             setSelectedIndex((prev) => (prev + 1) % results.length);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setSelectedIndex((prev) => (prev + 1) % results.length);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
         } else if (e.key === 'Enter') {
             e.preventDefault();
             // If only one result, select it automatically
