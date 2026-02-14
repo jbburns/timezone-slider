@@ -44,6 +44,31 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
         setIsExactTime(true);
     };
 
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const dateValue = e.target.value;
+        if (!dateValue) return;
+
+        // Current view time (start of the grid)
+        const currentViewTime = homeTime.startOf('hour').plus({ hours: gridOffset });
+
+        // Create target date with same time as current view
+        // e.target.value is YYYY-MM-DD
+        const targetDate = DateTime.fromISO(dateValue, { zone: homeCity.timezone })
+            .set({
+                hour: currentViewTime.hour,
+                minute: currentViewTime.minute
+            });
+
+        // Calculate difference in hours between target and "Now" (base homeTime)
+        // We need to update gridOffset such that startHour becomes targetDate
+        // startHour = homeTime.startOf('hour').plus({ hours: gridOffset })
+        // We want newStartHour ~ targetDate
+        // So newGridOffset = targetDate.diff(homeTime.startOf('hour'), 'hours').hours
+
+        const diffHours = targetDate.diff(homeTime.startOf('hour'), 'hours').hours;
+        setGridOffset(Math.round(diffHours));
+    };
+
     const handleDragStart = (index: number) => {
         setDraggedIndex(index);
     };
@@ -115,6 +140,13 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
                     <RotateCcw size={18} />
                     <span>Now</span>
                 </button>
+
+                <input
+                    type="date"
+                    className="date-picker-input"
+                    value={startHour.toFormat('yyyy-MM-dd')}
+                    onChange={handleDateChange}
+                />
 
 
                 <button className="nav-arrow nav-right" onClick={() => handleNav('right')} title="+1 Hour">

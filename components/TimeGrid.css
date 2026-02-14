@@ -49,6 +49,32 @@
     box-shadow: 0 4px 12px rgba(255, 146, 43, 0.5);
 }
 
+.date-picker-input {
+    background: var(--surface-color);
+    border: var(--glass-border);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* Custom calendar icon color adjustment would require vendor prefixes, keeping simple for now */
+    color-scheme: dark;
+    /* Ensures popup is dark */
+}
+
+.date-picker-input:hover {
+    background: var(--surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.date-picker-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 146, 43, 0.2);
+}
+
 .now-indicator-line {
     position: absolute;
     top: 0;
@@ -141,9 +167,8 @@
     cursor: grabbing;
 }
 
-.location-row {
-    /* cursor: grab; Removed, now on city-info */
-}
+
+
 
 .location-row.drop-target {
     position: relative;
