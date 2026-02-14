@@ -66,7 +66,10 @@ const LocationRow: React.FC<Props> = ({
                 </div>
                 <div className="city-time-display">
                     {pinnedColumnIndex !== null
-                        ? cells[pinnedColumnIndex].toFormat('HH:mm')
+                        ? (isExactTime
+                            ? cityNow.toFormat('HH:mm')
+                            : cells[pinnedColumnIndex].toFormat('HH:mm')
+                        )
                         : (hoveredIndex !== null
                             ? cells[hoveredIndex].toFormat('HH:mm')
                             : cityNow.toFormat('HH:mm')
@@ -74,7 +77,10 @@ const LocationRow: React.FC<Props> = ({
                     }
                     <span className="city-date">
                         {pinnedColumnIndex !== null
-                            ? cells[pinnedColumnIndex].toFormat('EEE, MMM d')
+                            ? (isExactTime
+                                ? cityNow.toFormat('EEE, MMM d')
+                                : cells[pinnedColumnIndex].toFormat('EEE, MMM d')
+                            )
                             : (hoveredIndex !== null
                                 ? cells[hoveredIndex].toFormat('EEE, MMM d')
                                 : cityNow.toFormat('EEE, MMM d')
