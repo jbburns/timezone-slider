@@ -115,7 +115,8 @@
     display: flex;
     background: var(--surface-color);
     backdrop-filter: var(--backdrop-blur);
-    height: 88px;
+    height: 100px;
+    /* Increased from 88px */
     /* Slightly taller for breathing room */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     /* Slightly stronger separator */
@@ -173,9 +174,11 @@
 
 
 .city-info {
-    width: 200px;
-    min-width: 200px;
-    padding: 0 24px;
+    width: 220px;
+    /* Increased from 200px */
+    min-width: 220px;
+    padding: 0 32px;
+    /* Increased from 24px */
     display: flex;
     flex-direction: column;
     justify-content: center;
