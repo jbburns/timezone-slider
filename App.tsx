@@ -8,12 +8,21 @@ import CitySearch from './components/CitySearch';
 import TimeGrid from './components/TimeGrid';
 
 function App() {
-  const [cities, setCities] = useState<City[]>([]);
+  const [cities, setCities] = useState<City[]>(() => {
+    const saved = localStorage.getItem('timezone-slider-cities');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to recover cities", e);
+      }
+    }
+    return [getInitialHomeCity()];
+  });
 
   useEffect(() => {
-    const home = getInitialHomeCity();
-    setCities([home]);
-  }, []);
+    localStorage.setItem('timezone-slider-cities', JSON.stringify(cities));
+  }, [cities]);
 
   const addCity = (city: City) => {
     if (!cities.find(c => c.timezone === city.timezone)) {
