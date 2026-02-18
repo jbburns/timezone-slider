@@ -3,7 +3,6 @@ import { getInitialHomeCity } from './lib/GeoUtils';
 import { City } from './lib/CityLink';
 import './index.css';
 import './App.css';
-import Header from './components/Header';
 import CitySearch from './components/CitySearch';
 import TimeGrid from './components/TimeGrid';
 
