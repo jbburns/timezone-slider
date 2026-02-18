@@ -14,3 +14,25 @@
   flex-direction: column;
   gap: var(--spacing-xl);
 }
+
+/* Mobile: Prevent unwanted scrolling when content fits */
+@media (max-width: 768px) {
+
+  html,
+  body {
+    overflow: hidden;
+    height: 100dvh;
+  }
+
+  .app-container {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .main-content {
+    padding-top: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+}

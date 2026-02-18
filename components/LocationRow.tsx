@@ -23,16 +23,40 @@ interface Props {
     isDragging: boolean;
     showDropIndicator: boolean;
     isExactTime: boolean;
+    onTouchDragStart?: () => void;
+    onTouchDragMove?: (clientY: number) => void;
+    onTouchDragEnd?: () => void;
 }
 
 const LocationRow: React.FC<Props> = ({
     city, isHome, homeStartHour, onRemove, hoveredIndex, onHoverIndex, pinnedColumnIndex, onCellClick,
-    draggable, onDragStart, onDragOver, onDragLeave, onDrop, onDragEnd, isDragging, showDropIndicator, isExactTime
+    draggable, onDragStart, onDragOver, onDragLeave, onDrop, onDragEnd, isDragging, showDropIndicator, isExactTime,
+    onTouchDragStart, onTouchDragMove, onTouchDragEnd
 }) => {
     const cityNow = DateTime.now().setZone(city.timezone);
 
     // Calculate minute percentage for exact time line (0-100%)
     const currentMinutePct = (cityNow.minute / 60) * 100;
+
+    // Touch drag handlers
+    const handleTouchStart = () => {
+        if (onTouchDragStart) {
+            onTouchDragStart();
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (onTouchDragMove && e.touches.length > 0) {
+            const touch = e.touches[0];
+            onTouchDragMove(touch.clientY);
+        }
+    };
+
+    const handleTouchEnd = () => {
+        if (onTouchDragEnd) {
+            onTouchDragEnd();
+        }
+    };
 
     const cells = Array.from({ length: 24 }, (_, i) => {
         const cellTimeAbsolute = homeStartHour.plus({ hours: i });
@@ -56,6 +80,9 @@ const LocationRow: React.FC<Props> = ({
                 draggable={draggable}
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
             >
                 <div className="city-header-row">
                     <span className="city-name-display">{city.name}</span>

@@ -2,8 +2,8 @@
     position: relative;
     width: 100%;
     max-width: 300px;
-    z-index: 100;
-    /* Ensure search is above grid */
+    z-index: 2000;
+    /* High enough to be above grid rows */
 }
 
 .search-input-container {
@@ -48,17 +48,17 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(30, 31, 36, 0.95);
-    /* Opaque enough to read */
-    backdrop-filter: var(--backdrop-blur);
-    border: var(--glass-border);
+    background: #1a1b1e;
+    /* Solid opaque background to prevent rendering glitches */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--radius-md);
     margin-top: 8px;
     padding: 4px;
     list-style: none;
     max-height: 300px;
     overflow-y: auto;
-    box-shadow: var(--glass-shadow);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 3000;
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -94,11 +94,13 @@
 
 .city-name {
     font-weight: 600;
-    color: var(--text-primary);
+    color: #ffffff;
+    /* Explicit white for visibility */
 }
 
 .city-meta {
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    color: #b0b3b8;
+    /* Light grey for meta info */
     margin-top: 2px;
 }

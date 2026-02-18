@@ -19,6 +19,7 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
     const [isExactTime, setIsExactTime] = useState(true); // Default to exact time (Now)
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+    const [touchDragIndex, setTouchDragIndex] = useState<number | null>(null);
 
     // Track offset from "Now" in hours. 0 = Current hour is start.
     const [gridOffset, setGridOffset] = useState(0);
@@ -104,6 +105,34 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
         setDragOverIndex(null);
     };
 
+    // Touch drag handlers for mobile
+    const handleTouchDragStart = (index: number) => {
+        setTouchDragIndex(index);
+    };
+
+    const handleTouchDragMove = (index: number, clientY: number) => {
+        // Find which row the touch is over  
+        const rows = document.querySelectorAll('.location-row');
+        let targetIndex = index; // default to same row
+
+        rows.forEach((row, idx) => {
+            const rect = row.getBoundingClientRect();
+            if (clientY >= rect.top && clientY <= rect.bottom) {
+                targetIndex = idx;
+            }
+        });
+
+        setDragOverIndex(targetIndex);
+    };
+
+    const handleTouchDragEnd = () => {
+        if (touchDragIndex !== null && dragOverIndex !== null && touchDragIndex !== dragOverIndex) {
+            onReorder(touchDragIndex, dragOverIndex);
+        }
+        setTouchDragIndex(null);
+        setDragOverIndex(null);
+    };
+
     return (
         <div className="time-grid-wrapper">
             <div className="time-grid-container" onMouseLeave={() => setHoveredHourIndex(null)}>
@@ -124,9 +153,12 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
                         onDragLeave={handleDragLeave}
                         onDrop={(e) => handleDrop(e, index)}
                         onDragEnd={handleDragEnd}
-                        isDragging={draggedIndex === index}
-                        showDropIndicator={dragOverIndex === index && draggedIndex !== index}
+                        isDragging={draggedIndex === index || touchDragIndex === index}
+                        showDropIndicator={dragOverIndex === index && (draggedIndex !== index && touchDragIndex !== index)}
                         isExactTime={isExactTime}
+                        onTouchDragStart={index !== 0 ? () => handleTouchDragStart(index) : undefined}
+                        onTouchDragMove={index !== 0 ? (clientY) => handleTouchDragMove(index, clientY) : undefined}
+                        onTouchDragEnd={index !== 0 ? handleTouchDragEnd : undefined}
                     />
                 ))}
             </div>

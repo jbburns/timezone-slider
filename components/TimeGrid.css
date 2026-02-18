@@ -427,12 +427,15 @@
     .city-info {
         width: 160px;
         min-width: 160px;
-        padding: 0 20px;
+        padding: 0 12px;
+        user-select: none;
+        touch-action: none;
+        /* Prevent scroll when dragging row */
     }
 
-    /* Reduce location row height for mobile */
+    /* Increase location row height slightly to prevent text clipping */
     .location-row {
-        height: 80px;
+        height: 85px;
     }
 
     /* Scale down time display */
