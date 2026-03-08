@@ -17,10 +17,5 @@ export const MAJOR_CITIES_AllowList = new Set([
     "Kolkata", "Chennai", "Hyderabad", "Pune", "Ahmedabad", "Lahore", "Islamabad", "Colombo",
     "Yangon", "Hanoi", "Phnom Penh", "Vientiane", "Wellington", "Christchurch", "Honolulu",
     "Anchorage", "Detroit", "Philadelphia", "Minneapolis", "St. Louis", "Salt Lake City", "Portland",
-    "San Jose", "Sacramento", "Charlotte", "Nashville", "Indianapolis", "Columbus", "Cleveland",
-    "Kansas City", "Edmonton", "Calgary", "Ottawa", "Quebec City", "Winnipeg", "Halifax",
-    "Guadalajara", "Monterrey", "Rio de Janeiro", "Brasília", "Caracas", "Quito", "Medellín",
-    "Cali", "Cordoba", "Rosario", "Kyoto", "Yokohama", "Nagoya", "Sapporo", "Fukuoka", "Kobe",
-    "Busan", "Incheon", "Daegu", "Shenzhen", "Guangzhou", "Chengdu", "Chongqing", "Tianjin",
-    "Wuhan", "Xi'an", "Hangzhou", "Nanjing", "Suzhou"
+    "San Jose", "Sacramento", "Charlotte", "Nashville"
 ]);
