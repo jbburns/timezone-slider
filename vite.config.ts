@@ -7,7 +7,7 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/timezone-slider/',
+  base: '/',
   plugins: [react(), basicSsl(), VitePWA({
     registerType: 'autoUpdate',
     includeAssets: ['globe.png', 'pwa-192x192.png', 'pwa-512x512.png'],
