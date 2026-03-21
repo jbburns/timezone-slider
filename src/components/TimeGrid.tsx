@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { City } from '../lib/CityLink';
 import LocationRow from './LocationRow';
 import { DateTime } from 'luxon';
@@ -23,6 +23,23 @@ const TimeGrid: React.FC<Props> = ({ cities, onRemove, onReorder, citySearch }) 
 
     // Track offset from "Now" in hours. 0 = Current hour is start.
     const [gridOffset, setGridOffset] = useState(0);
+
+    // Auto-refresh aligned to the system clock's minute boundary
+    const [, setTick] = useState(0);
+    useEffect(() => {
+        if (!isExactTime) return;
+        let intervalId: ReturnType<typeof setInterval>;
+        // Wait for the next minute to start, then tick every 60s
+        const msUntilNextMinute = (60 - new Date().getSeconds()) * 1000 - new Date().getMilliseconds();
+        const timeoutId = setTimeout(() => {
+            setTick(t => t + 1);
+            intervalId = setInterval(() => setTick(t => t + 1), 60_000);
+        }, msUntilNextMinute);
+        return () => {
+            clearTimeout(timeoutId);
+            clearInterval(intervalId);
+        };
+    }, [isExactTime]);
 
     if (cities.length === 0) return <div>Add a city to start</div>;
 
