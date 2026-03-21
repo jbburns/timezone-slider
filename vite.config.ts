@@ -5,7 +5,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: './',
   plugins: [react(), basicSsl(), VitePWA({
     registerType: 'autoUpdate',
     includeAssets: ['globe.png', 'pwa-192x192.png', 'pwa-512x512.png'],
