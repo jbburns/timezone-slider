@@ -1,32 +1,42 @@
-# React + TypeScript + Vite
+# Timezone Slider
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A progressive web app (PWA) for visualizing multiple timezones simultaneously. Add the cities you care about and instantly see what time it is everywhere at a glance—slide to compare times across zones.
 
-Currently, two official plugins are available:
+Built with React, TypeScript, and Vite. Deployed to GitHub Pages.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Build
+
+```bash
+npm run build
+```
+
+## Test
+
+```bash
+npm run test
+```
+
+Run tests in watch mode:
+
+```bash
+npm run test:watch
+```
+
+## solve-issues
+
+The repo includes a `solve-issues.sh` script that automates issue resolution using Claude Code. It pulls all open GitHub issues, creates a branch for each one, and uses `claude -p` to implement, test, build, and commit the changes. After each issue you can review the result in the browser and choose to accept, reject (with feedback), skip, or abort.
+
+Prerequisites: `gh` CLI (authenticated), `node` / `npm`, and `claude` CLI.
+
+```bash
+./solve-issues.sh
+```
+
+See [SOLVE-ISSUES.md](SOLVE-ISSUES.md) for the full design.
