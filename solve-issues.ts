@@ -16,10 +16,11 @@ export type RetryAction = 'retry' | 'skip' | 'abort';
 
 export function exec(cmd: string, opts?: { silent?: boolean }): string {
   try {
-    return execSync(cmd, {
+    const result = execSync(cmd, {
       encoding: 'utf-8',
       stdio: opts?.silent ? 'pipe' : 'inherit',
-    }).trim();
+    });
+    return result?.trim() ?? '';
   } catch (e: unknown) {
     if (opts?.silent) {
       const err = e as { stdout?: string };
