@@ -382,12 +382,7 @@ async function main(): Promise<void> {
             const prUrl = pushAndCreatePr(issue, branch);
             ok(`PR created: ${prUrl}`);
 
-            info('Merging PR...');
-            mergePr(prUrl);
-            ok('Merged and branch deleted.');
-
             gitCheckout('main');
-            gitPullMain();
             continueLoop = false;
             break;
           }
