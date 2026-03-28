@@ -65,6 +65,19 @@ describe('CityLink.search', () => {
     expect(ids.length).toBe(uniqueIds.size);
   });
 
+  it('prioritizes abbreviation matches over city name matches', () => {
+    // "EST" is a timezone abbreviation — abbreviation matches should come first
+    const results = CityLink.search('EST');
+    const abbrevResults = results.filter(r => r.matchReason === 'EST');
+    const nonAbbrevResults = results.filter(r => !r.matchReason);
+    // All abbreviation matches should appear before non-abbreviation matches
+    if (abbrevResults.length > 0 && nonAbbrevResults.length > 0) {
+      const lastAbbrevIndex = results.lastIndexOf(abbrevResults[abbrevResults.length - 1]);
+      const firstNonAbbrevIndex = results.indexOf(nonAbbrevResults[0]);
+      expect(lastAbbrevIndex).toBeLessThan(firstNonAbbrevIndex);
+    }
+  });
+
   it('only returns major cities', () => {
     // Search for a generic term — all results should be major cities
     const results = CityLink.search('London');

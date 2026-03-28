@@ -184,10 +184,19 @@ export class CityLink {
 
         // Deduplicate by ID
         const seen = new Set<string>();
-        return results.filter(city => {
+        const unique = results.filter(city => {
             const duplicate = seen.has(city.id);
             seen.add(city.id);
             return !duplicate;
-        }).slice(0, 10); // Limit results
+        });
+
+        // Prefer abbreviation matches over city name matches
+        unique.sort((a, b) => {
+            if (a.matchReason && !b.matchReason) return -1;
+            if (!a.matchReason && b.matchReason) return 1;
+            return 0;
+        });
+
+        return unique.slice(0, 10); // Limit results
     }
 }
