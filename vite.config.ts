@@ -47,7 +47,6 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
       cleanupOutdatedCaches: true,
       navigateFallback: 'index.html',
-      navigateFallbackDenylist: [/^\/timezone-slider\/pr-preview\//],
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
