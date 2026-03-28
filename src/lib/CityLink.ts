@@ -6,6 +6,7 @@ export interface City {
     name: string;
     country: string;
     timezone: string;
+    matchReason?: string;
 }
 
 // Common name aliases -> canonical name used by city-timezones library.
@@ -148,7 +149,9 @@ export class CityLink {
         }
 
         // Check if query matches a timezone abbreviation (e.g. "JST", "EST")
-        const abbrevTimezones = ABBREV_TO_TIMEZONES[query.toUpperCase()];
+        const abbrevKey = query.toUpperCase();
+        const abbrevTimezones = ABBREV_TO_TIMEZONES[abbrevKey];
+        const abbrevTzSet = abbrevTimezones ? new Set(abbrevTimezones) : null;
         if (abbrevTimezones) {
             const existingIds = new Set(allMatches.map(m => `${m.city}-${m.country}`));
             for (const entry of cityTimezones.cityMapping) {
@@ -166,12 +169,16 @@ export class CityLink {
             const entry = isMajorCity(match.city, match.country);
             if (entry) {
                 const displayName = entry.displayName || match.city;
-                results.push({
+                const city: City = {
                     id: `${match.city}-${match.country}-${match.timezone}`,
                     name: displayName,
                     country: match.country,
                     timezone: match.timezone,
-                });
+                };
+                if (abbrevTzSet?.has(match.timezone)) {
+                    city.matchReason = abbrevKey;
+                }
+                results.push(city);
             }
         }
 

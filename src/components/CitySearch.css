@@ -104,3 +104,15 @@
     /* Light grey for meta info */
     margin-top: 2px;
 }
+
+.match-badge {
+    display: inline-block;
+    background: rgba(77, 171, 247, 0.25);
+    color: #7bb8f0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    letter-spacing: 0.5px;
+}
