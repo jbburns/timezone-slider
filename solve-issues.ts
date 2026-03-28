@@ -79,8 +79,12 @@ export function checkGhAuth(): boolean {
 }
 
 export function nodeModulesExist(): boolean {
-  const fs = require('fs');
-  return fs.existsSync('node_modules');
+  try {
+    execSync('test -d node_modules', { stdio: 'pipe' });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function checkPrerequisites(): void {
