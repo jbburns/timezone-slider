@@ -71,4 +71,5 @@ describe('CityLink.search', () => {
     // Should not return London, Ontario or London, Kentucky
     expect(results.every(r => r.country === 'United Kingdom')).toBe(true);
   });
+
 });
