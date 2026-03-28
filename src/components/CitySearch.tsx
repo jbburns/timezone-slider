@@ -97,7 +97,10 @@ const CitySearch: React.FC<Props> = ({ onSelect }) => {
                             onMouseEnter={() => setSelectedIndex(index)}
                         >
                             <span className="city-name">{city.name}</span>
-                            <span className="city-meta">{city.country} • {city.timezone}</span>
+                            <span className="city-meta">
+                                {city.matchReason && <span className="match-badge">{city.matchReason}</span>}
+                                {city.country} • {city.timezone}
+                            </span>
                         </li>
                     ))}
                 </ul>
